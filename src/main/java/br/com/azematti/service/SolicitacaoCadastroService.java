@@ -38,7 +38,7 @@ public class SolicitacaoCadastroService {
 		}
 		SolicitacaoCadastro cad = repository.findByCodigo(cadastro.getCodigo());
 		atualizarDados(cad, cadastro);
-		return repository.save(cad);
+		return repository.save(cadastro);
 	}
 	
 	public void excluiCadastro(Long id) {

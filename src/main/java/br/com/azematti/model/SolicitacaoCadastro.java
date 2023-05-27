@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString
-@Table(name = "AZEMATTI.T_USU_SOLCADASTRO")
+@Table(name = "T_USU_SOLCADASTRO")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class SolicitacaoCadastro {
 	
@@ -49,6 +49,10 @@ public class SolicitacaoCadastro {
 	private String email;
 	
 	@NotBlank
+	@Column(name = "USU_USUARIO_CPF", columnDefinition = "CHAR(11)", nullable = false)
+	private String cpf;
+	
+	@NotBlank
 	@Size(max = 20)
 	@Column(name = "USU_USUARIO_TELEFONE", columnDefinition = "VARCHAR(20)", nullable = false)
 	private String telefone;
@@ -58,4 +62,7 @@ public class SolicitacaoCadastro {
 	
 	@Column(name = "USU_USUARIO_SERVICO", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String servico;
+	
+	public SolicitacaoCadastro() {
+		}
 }
