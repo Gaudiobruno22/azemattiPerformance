@@ -42,10 +42,9 @@ public class SolicitacaoCadastro {
 	@Column(name = "USU_USUARIO_ESTADO", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String estado;
 	
-	@NotBlank
 	@Size(max = 255)
 	@Email
-	@Column(name = "USU_USUARIO_EMAIL", columnDefinition = "VARCHAR(255)", nullable = false)
+	@Column(name = "USU_USUARIO_EMAIL", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String email;
 	
 	@NotBlank

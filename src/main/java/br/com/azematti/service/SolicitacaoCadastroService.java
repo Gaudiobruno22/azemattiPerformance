@@ -2,12 +2,14 @@ package br.com.azematti.service;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import br.com.azematti.exception.RequiredObjectException;
 import br.com.azematti.exception.ResourceNotFoundException;
 import br.com.azematti.exception.ServiceException;
 import br.com.azematti.model.SolicitacaoCadastro;
+import br.com.azematti.model.dto.SolicitacaoCadastroDTO;
 import br.com.azematti.repository.SolicitacaoCadastroRepository;
 import lombok.AllArgsConstructor;
 
@@ -16,6 +18,8 @@ import lombok.AllArgsConstructor;
 public class SolicitacaoCadastroService {
 
 	private SolicitacaoCadastroRepository repository;
+	
+	private ModelMapper modelMapper;
 	
 	public SolicitacaoCadastro buscaCadastro(Long id) {
 		return repository.findById(id).orElseThrow(() -> new ServiceException("Id não encontrado!"));
@@ -56,5 +60,9 @@ public class SolicitacaoCadastroService {
 		antigo.setTelefone(novo.getTelefone());
 		antigo.setVeiculo(novo.getVeiculo());
 		antigo.setServico(novo.getServico());
+	}
+	
+	public SolicitacaoCadastroDTO toDTO(SolicitacaoCadastro cadastro) {
+		return modelMapper.map(cadastro, SolicitacaoCadastroDTO.class);
 	}
 }
