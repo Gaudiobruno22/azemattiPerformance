@@ -65,4 +65,5 @@ public class SolicitacaoCadastroService {
 	public SolicitacaoCadastroDTO toDTO(SolicitacaoCadastro cadastro) {
 		return modelMapper.map(cadastro, SolicitacaoCadastroDTO.class);
 	}
+	
 }

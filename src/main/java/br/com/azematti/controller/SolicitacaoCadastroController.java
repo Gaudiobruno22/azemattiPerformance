@@ -1,5 +1,7 @@
 package br.com.azematti.controller;
 
+import java.net.URI;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.azematti.exception.ResourceNotFoundException;
 import br.com.azematti.model.SolicitacaoCadastro;
@@ -49,24 +52,35 @@ public class SolicitacaoCadastroController {
 	}
 	
 	@ApiOperation(value = "Insere um novo Cadastro.")
-	@PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/insere/novo", produces = {MediaType.APPLICATION_JSON_VALUE})
 	@ResponseStatus(HttpStatus.CREATED)
-	public SolicitacaoCadastro insereCadastro(@RequestBody SolicitacaoCadastro cadastro){
-		return service.insereCadastro(cadastro);
+	public ResponseEntity<Void> insereCadastro(@RequestBody SolicitacaoCadastro cadastro){
+		try {
+			SolicitacaoCadastroDTO model = service.toDTO(cadastro);
+			service.insereCadastro(cadastro);
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{codigo}").buildAndExpand(model.getCodigo()).toUri();
+			return ResponseEntity.created(uri).build();
+		}	
+		catch (Exception e) {
+		logger.error("{}" ,e);
+		return  (ResponseEntity<Void>) ResponseEntity.badRequest();
+		}
 	}
 	
 	@ApiOperation(value = "Atualiza um Cadastro pelo Código.")
 	@PutMapping(value = "/atualiza/{id}")
-	public ResponseEntity<SolicitacaoCadastro> atualizaCadastro(@PathVariable Long id, @RequestBody SolicitacaoCadastro cadastro){
+	public ResponseEntity<SolicitacaoCadastroDTO> atualizaCadastro(@PathVariable Long id, @RequestBody SolicitacaoCadastro cadastro){
+		SolicitacaoCadastroDTO response = new SolicitacaoCadastroDTO();
 		cadastro.setCodigo(id);
 		if(!repository.existsById(cadastro.getCodigo())) {
 			throw new ResourceNotFoundException();
 		}
 		else {
 			service.atualizaCadastro(cadastro);
+			response = service.toDTO(cadastro);
 			logger.info("Cadastro está atualizado? " + cadastro.toString());
 		}
-		return ResponseEntity.ok(cadastro);
+		return ResponseEntity.ok(response);
 	}
 	
 	@ApiOperation(value = "Deleta um Cadastro passando o Código.")
