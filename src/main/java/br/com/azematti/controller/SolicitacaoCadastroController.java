@@ -1,8 +1,5 @@
 package br.com.azematti.controller;
 
-import java.net.URI;
-
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.azematti.exception.ResourceNotFoundException;
 import br.com.azematti.model.SolicitacaoCadastro;
@@ -39,7 +35,6 @@ public class SolicitacaoCadastroController {
 	
 	private SolicitacaoCadastroRepository repository;
 	
-	private ModelMapper modelMapper;
 	
 	private static final Logger logger = LoggerFactory.getLogger(SolicitacaoCadastroController.class);
 	
@@ -56,14 +51,13 @@ public class SolicitacaoCadastroController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Void> insereCadastro(@RequestBody SolicitacaoCadastro cadastro){
 		try {
-			SolicitacaoCadastroDTO model = service.toDTO(cadastro);
 			service.insereCadastro(cadastro);
-			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{codigo}").buildAndExpand(model.getCodigo()).toUri();
-			return ResponseEntity.created(uri).build();
+			return ResponseEntity.noContent().build();
 		}	
 		catch (Exception e) {
 		logger.error("{}" ,e);
-		return  (ResponseEntity<Void>) ResponseEntity.badRequest();
+		ResponseEntity<Void> responseEntity = (ResponseEntity<Void>) ResponseEntity.badRequest();
+		return  responseEntity;
 		}
 	}
 	

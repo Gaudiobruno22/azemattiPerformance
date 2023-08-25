@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -29,12 +30,17 @@ public class SolicitacaoCadastro {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	@Column(name = "USU_USUARIO_CODIGO")
+	@PrimaryKeyJoinColumn
 	private Long codigo;
 	
 	@NotBlank
 	@Size(max = 150)
-	@Column(name = "USU_USUARIO_NOME", columnDefinition = "VARCHAR(150)", nullable = false)
+	@Column(name = "USU_USUARIO_NOME", columnDefinition = "VARCHAR(150)", nullable = true)
 	private String nome;
+	
+	@NotBlank
+	@Column(name = "USU_USUARIO_CPF", columnDefinition = "CHAR(11)", nullable = true)
+	private String cpf;
 	
 	@Column(name = "USU_USUARIO_CIDADE", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String cidade;
@@ -48,12 +54,8 @@ public class SolicitacaoCadastro {
 	private String email;
 	
 	@NotBlank
-	@Column(name = "USU_USUARIO_CPF", columnDefinition = "CHAR(11)", nullable = false)
-	private String cpf;
-	
-	@NotBlank
 	@Size(max = 20)
-	@Column(name = "USU_USUARIO_TELEFONE", columnDefinition = "VARCHAR(20)", nullable = false)
+	@Column(name = "USU_USUARIO_TELEFONE", columnDefinition = "VARCHAR(20)", nullable = true)
 	private String telefone;
 	
 	@Column(name = "USU_USUARIO_VEICULO", columnDefinition = "VARCHAR(255)", nullable = true)
@@ -63,5 +65,5 @@ public class SolicitacaoCadastro {
 	private String servico;
 	
 	public SolicitacaoCadastro() {
-		}
+	}
 }
