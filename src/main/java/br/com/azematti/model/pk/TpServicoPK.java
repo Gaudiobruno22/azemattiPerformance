@@ -6,8 +6,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
-import br.com.azematti.model.Servico;
+import br.com.azematti.model.TipoServico;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,10 +19,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class ServicosPK implements Serializable{
+public class TpServicoPK implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(targetEntity = Servico.class)
-	@JoinColumn(name = "SER_SERVICO_CODIGO", foreignKey = @ForeignKey(name = "t_cad_cadastros_ibfk_2"))
-	private Servico servicoCodigo;
+	@ManyToOne(targetEntity = TipoServico.class)
+	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "SER_TPSERVICO_COD", foreignKey = @ForeignKey(name = "t_ser_servico_ibfk_1"))
+	private TipoServico tipoServico;
 }

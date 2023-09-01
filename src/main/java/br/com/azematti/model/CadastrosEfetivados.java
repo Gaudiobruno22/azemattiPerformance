@@ -1,6 +1,7 @@
 package br.com.azematti.model;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.com.azematti.model.pk.CadastrosPK;
-import br.com.azematti.model.pk.ServicosPK;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +41,6 @@ public class CadastrosEfetivados {
 	private String veiculo;
 	
 	@ManyToOne(targetEntity = Servico.class)
-	@JoinColumn(name = "SER_SERVICO_COD", foreignKey = @ForeignKey(name = "t_cad_cadastros_ibfk_2"))
-	private Servico codServico;
+	@JoinColumn(name = "SER_SERVICO_CODIGO", foreignKey = @ForeignKey(name = "t_cad_cadastros_ibfk_2"))
+	private Servico servicos;
 }

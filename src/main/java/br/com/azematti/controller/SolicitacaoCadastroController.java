@@ -27,7 +27,7 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/cadastro")
+@RequestMapping("/api/solicitacao")
 @Api(value = "EndPoint de Solicitação de Cadastro", description = "Endpoint para Verificar o Crud da Solicitação de Cadastro - Azematti WebSite", tags = "SolicitacaoCadastro")
 public class SolicitacaoCadastroController {
 	
