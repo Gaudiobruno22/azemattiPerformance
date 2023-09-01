@@ -1,7 +1,7 @@
 package br.com.azematti.service;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,10 @@ public class ServicoService {
 	private SolicitacaoCadastroService usuarioService;
 	private CadastrosEfetivadosService cadastroEfetivadoService;
 	
+	
+	public List<Servico> buscaServicos(){
+		return repository.findAll();
+	}
 	
 	public void novoServico (Servico servico) {
 		if(servico.equals(null)) {
