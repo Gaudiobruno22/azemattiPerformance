@@ -33,7 +33,10 @@ public class SolicitacaoCadastroService {
 		if(cadastro == null) {
 			throw new RequiredObjectException();
 		}
-		return repository.save(cadastro);
+		cadastro.setCodigo(cadastro.getCodigo());
+		repository.save(cadastro);
+		toDTO(cadastro);
+		return cadastro;
 	}
 	
 	public SolicitacaoCadastro atualizaCadastro(SolicitacaoCadastro cadastro) {
