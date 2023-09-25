@@ -59,8 +59,7 @@ public class FipeService {
 			fipe = client.consultaValorFipe(marcaCodigo, modeloCodigo, anoCodigo);
 		}catch(Exception e) {
 			System.out.println("Erro ao Buscar FIPE: " + e.getMessage());
-		}
-		
+		}	
 		return fipe;
 	}
 }
