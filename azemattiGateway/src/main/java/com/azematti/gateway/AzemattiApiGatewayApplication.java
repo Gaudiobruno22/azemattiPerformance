@@ -1,16 +1,17 @@
-package br.com.azematti;
+package com.azematti.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
-@SpringBootApplication
-@EnableFeignClients
 @EnableEurekaClient
-public class AzemattiPerformanceApplication {
+@EnableZuulProxy
+@SpringBootApplication
+public class AzemattiApiGatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AzemattiPerformanceApplication.class, args);
+		SpringApplication.run(AzemattiApiGatewayApplication.class, args);
 	}
+
 }
