@@ -1,11 +1,11 @@
-package br.com.azematti.model;
+package br.com.azematti.fipe.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
 @Data
-public class FipeDados {
+public class FipeDadosResponse {
 
 	@JsonProperty("TipoVeiculo")
 	private Long tipoVeiculo;

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import br.com.azematti.fipe.response.FipeAnosResponse;
+import br.com.azematti.fipe.response.FipeDadosResponse;
 import br.com.azematti.fipe.response.FipeMarcasResponse;
-import br.com.azematti.model.FipeDados;
 import br.com.azematti.model.wrapper.FipeModelosWrapper;
 
 @Component
@@ -28,8 +28,8 @@ public interface TabelaFipeClient {
 	List<FipeAnosResponse> buscaAnoModelo(@PathVariable String marcaCodigo, 
 								  @PathVariable String modeloCodigo);
 	
-	@GetMapping(value = "/carros/marcas/{marcaCodigo}/modelos/{modeloCodigo}/anos/	{anoCodigo}", produces = {MediaType.APPLICATION_JSON_VALUE})
-	FipeDados consultaValorFipe(@PathVariable String marcaCodigo,
+	@GetMapping(value = "/carros/marcas/{marcaCodigo}/modelos/{modeloCodigo}/anos/{anoCodigo}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	FipeDadosResponse consultaValorFipe(@PathVariable String marcaCodigo,
 								@PathVariable String modeloCodigo,
 								@PathVariable String anoCodigo);
 }
