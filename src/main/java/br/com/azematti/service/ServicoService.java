@@ -1,6 +1,6 @@
 package br.com.azematti.service;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import br.com.azematti.exception.RequiredObjectException;
-import br.com.azematti.model.CadastrosEfetivados;
 import br.com.azematti.model.Servico;
 import br.com.azematti.model.SolicitacaoCadastro;
 import br.com.azematti.model.TipoServico;
@@ -23,35 +22,57 @@ public class ServicoService {
 	
 	private ServicoRepository repository;
 	private TipoServicoService tipoServico;
-	private SolicitacaoCadastroService usuarioService;
-	private CadastrosEfetivadosService cadastroEfetivadoService;
 	
 	
 	public List<Servico> buscaServicos(){
 		return repository.findAll();
 	}
 	
-	public void novoServico (Servico servico) {
-		if(servico.equals(null)) {
-			throw new RequiredObjectException("Valores Nulos ou Inválidos.");
-		}
-		TipoServico tpServico = tipoServico.buscaTpServico(servico.getTpServico().getCodigo());
-		SolicitacaoCadastro usuCad = usuarioService.buscaCadastro(servico.getUsuarioCodigo().getCodigo());
-		try {
-			servico.setTpServico(tpServico);
-			servico.setUsuarioCodigo(usuCad);
-			servico.setDtGravacao(Calendar.getInstance());
-			repository.save(servico);
-			
-			CadastrosEfetivados novoCadastro = new CadastrosEfetivados();
-			novoCadastro.setServicos(servico);
-			novoCadastro.setDtGravacao(servico.getDtGravacao());
-			novoCadastro.setUsuarioCodigo(usuCad);
-			novoCadastro.setVeiculo(usuCad.getVeiculo());
-			cadastroEfetivadoService.insereCadastro(novoCadastro);
-		}catch(Exception e) {
-			logger.info("Error {}..." + e.getMessage());
-		}	
+	public Servico salvaServico(Servico servico) {
+		return repository.save(servico);
 	}
 	
+	public Servico criaServico(SolicitacaoCadastro cadastro) {
+		logger.info("Iniciando Criação do Serviço...");
+		Servico servico = new Servico();
+		if(cadastro.getCodigo() == null) throw new RequiredObjectException("Cadastro não encontrado para Criar o Serviço.");
+		try {
+			servico.setCpf(cadastro.getCpf());
+			servico.setDescricao(cadastro.getServico());
+			servico.setDtGravacao(LocalDateTime.now());
+			servico.setFinalizado("N".toUpperCase());
+			servico.setPago("N".toUpperCase());
+			buscaTipoServico(cadastro, servico);
+			servico.setUsuarioCodigo(cadastro);
+			salvaServico(servico);
+		}catch(Exception e) {
+			logger.error("Erro ao criar Serviço. ERRO.: " + e.getMessage());
+		}
+		return servico;
+	}
+	
+	public Servico buscaTipoServico(SolicitacaoCadastro solCadastro, Servico servico) {
+		logger.info("Iniciando verificação do Tipo de Serviço...");
+		TipoServico tpServico = new TipoServico();
+		if (solCadastro.getCodigo() == null) throw new RequiredObjectException("Cadastro não encontrado para buscar o Tipo de Serviço.");
+		try {
+			if (solCadastro.getServico().equalsIgnoreCase("Stage 01")) {
+				tpServico = tipoServico.buscaTpServico(1L);
+				servico.setTpServico(tpServico);
+				servico.setValor(tpServico.getValorServico());
+			}else if (solCadastro.getServico().equalsIgnoreCase("Stage 02")) {
+				tpServico = tipoServico.buscaTpServico(2L);
+				servico.setTpServico(tpServico);
+				servico.setValor(tpServico.getValorServico());
+			}else {
+				tpServico = tipoServico.buscaTpServico(3L);
+				servico.setTpServico(tpServico);
+				servico.setValor(tpServico.getValorServico());
+			}
+			return servico;
+		}catch(Exception e) {
+			logger.error("Erro ao associar Tipo de Serviço. ERRO.: " + e.getMessage());
+		}
+		return servico;
+	}
 }

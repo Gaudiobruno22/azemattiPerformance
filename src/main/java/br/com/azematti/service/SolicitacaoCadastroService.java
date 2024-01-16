@@ -1,8 +1,8 @@
 package br.com.azematti.service;
 
-import java.util.List;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.azematti.exception.RequiredObjectException;
@@ -25,8 +25,10 @@ public class SolicitacaoCadastroService {
 		return repository.findById(id).orElseThrow(() -> new ServiceException("Id não encontrado!"));
 	}
 	
-	public List<SolicitacaoCadastro> buscaCadastros(){
-		return repository.findAll();
+	public Page<SolicitacaoCadastroDTO> buscaCadastros(Pageable pageable){
+		var solicitacaoPage = repository.findAll(pageable);
+		var solicitacaoDto = solicitacaoPage.map(x -> this.toDTO(x));		
+		return solicitacaoDto;
 	}
 	
 	public SolicitacaoCadastro insereCadastro(SolicitacaoCadastro cadastro) {

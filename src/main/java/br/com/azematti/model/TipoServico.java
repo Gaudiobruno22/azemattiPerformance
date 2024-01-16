@@ -52,6 +52,9 @@ public class TipoServico implements Serializable{
 	@Column(name = "SER_TPSERVICO_MECANICA", columnDefinition = "CHAR(1)", nullable = true)
 	private String servicoMecanica;
 	
+	@Column(name = "SER_TPSERVICO_VALOR", columnDefinition = "FLOAT(6,2)", nullable = true)
+	private Double valorServico;
+	
 	public TipoServico() {
 	}
 }

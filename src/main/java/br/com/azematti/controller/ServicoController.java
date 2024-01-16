@@ -29,18 +29,18 @@ public class ServicoController {
 	 
 	 private static final Logger logger = LoggerFactory.getLogger(TipoServicoController.class);
 	 
-	 @ApiOperation(value = "EndPoint para Inserir os dados de um Novo Serviço.")
-	 @PostMapping(value = "/novo-servico")
-	 public ResponseEntity<Void> insereServico(@RequestBody Servico servico){
-			try {
-				servicoService.novoServico(servico);
-				return ResponseEntity.noContent().build();
-			}
-			catch(Exception e) {
-				logger.error("{}" ,e);
-				return ResponseEntity.badRequest().build();
-			}
-	 }
+//	 @ApiOperation(value = "EndPoint para Inserir os dados de um Novo Serviço.")
+//	 @PostMapping(value = "/novo-servico")
+//	 public ResponseEntity<Void> insereServico(@RequestBody Servico servico){
+//			try {
+//				servicoService.novoServico(servico);
+//				return ResponseEntity.noContent().build();
+//			}
+//			catch(Exception e) {
+//				logger.error("{}" ,e);
+//				return ResponseEntity.badRequest().build();
+//			}
+//	 }
 	 
 	 @ApiOperation(value = "Busca todos Serviços Registrados.")
 	 @GetMapping(value = "/busca-todos")

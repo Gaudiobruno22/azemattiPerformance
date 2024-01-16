@@ -26,10 +26,10 @@ public interface TabelaFipeClient {
 	
 	@GetMapping(value = "/carros/marcas/{marcaCodigo}/modelos/{modeloCodigo}/anos", produces = {MediaType.APPLICATION_JSON_VALUE})
 	List<FipeAnosResponse> buscaAnoModelo(@PathVariable String marcaCodigo, 
-								  @PathVariable String modeloCodigo);
+								  		  @PathVariable String modeloCodigo);
 	
 	@GetMapping(value = "/carros/marcas/{marcaCodigo}/modelos/{modeloCodigo}/anos/{anoCodigo}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	FipeDadosResponse consultaValorFipe(@PathVariable String marcaCodigo,
-								@PathVariable String modeloCodigo,
-								@PathVariable String anoCodigo);
+									    @PathVariable String modeloCodigo,
+									    @PathVariable String anoCodigo);
 }

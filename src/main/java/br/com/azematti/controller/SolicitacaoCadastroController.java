@@ -2,6 +2,11 @@ package br.com.azematti.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +43,17 @@ public class SolicitacaoCadastroController {
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(SolicitacaoCadastroController.class);
+	
+	@ApiOperation(value = "Busca todos os Cadastros pelo Código, Paginação Default com 5 registros por Linha.")
+	@GetMapping(value = "/todos")
+	public ResponseEntity<Page<SolicitacaoCadastroDTO>> buscaTodosCadastros(@RequestParam(value = "page", defaultValue = "0") Integer page,
+																			@RequestParam(value = "limit", defaultValue = "5") Integer limit,
+																			@RequestParam(value = "direction", defaultValue = "asc") String direction){
+		
+		var directionPage = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(directionPage, "nome"));
+		return ResponseEntity.ok(service.buscaCadastros(pageable));
+	}
 	
 	@ApiOperation(value = "Encontrar um Cadastro pelo Código.")
 	@GetMapping(value = "/consulta/{codigo}", produces = {MediaType.APPLICATION_JSON_VALUE})

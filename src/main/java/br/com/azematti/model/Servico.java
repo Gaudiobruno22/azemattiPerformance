@@ -1,6 +1,7 @@
 package br.com.azematti.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -54,7 +55,7 @@ public class Servico implements Serializable{
 	private String cpf;
 	
 	@Column(name = "SER_SERVICO_DTGRAVACAO", columnDefinition = "TIMESTAMP", nullable = true)
-	private Calendar dtGravacao;
+	private LocalDateTime dtGravacao;
 	
 	@Column(name = "SER_SERVICO_PAGO", columnDefinition = "CHAR(1)", nullable = true)
 	private String pago;

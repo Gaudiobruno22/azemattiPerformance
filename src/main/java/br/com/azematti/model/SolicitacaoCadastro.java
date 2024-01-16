@@ -64,6 +64,9 @@ public class SolicitacaoCadastro {
 	@Column(name = "USU_USUARIO_SERVICO", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String servico;
 	
+	@Column(name = "USU_USUARIO_EFETIVOU", columnDefinition = "CHAR(1)", nullable = true)
+	private String efetivou;
+	
 	public SolicitacaoCadastro() {
 	}
 }

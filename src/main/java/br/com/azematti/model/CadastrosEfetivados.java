@@ -1,5 +1,6 @@
 package br.com.azematti.model;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class CadastrosEfetivados {
 	private SolicitacaoCadastro usuarioCodigo; 
 	
 	@Column(name = "DATA_GRAVACAO", columnDefinition = "TIMESTAMP", nullable = true)
-	private Calendar dtGravacao;
+	private LocalDateTime dtGravacao;
 	
 	@Column(name = "VEICULO", columnDefinition = "VARCHAR(255)", nullable = true)
 	private String veiculo;
