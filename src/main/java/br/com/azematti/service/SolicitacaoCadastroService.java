@@ -1,6 +1,8 @@
 package br.com.azematti.service;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class SolicitacaoCadastroService {
 	
 	private ModelMapper modelMapper;
 	
+	private static final Logger logger = LoggerFactory.getLogger(SolicitacaoCadastroService.class);
+	
 	public SolicitacaoCadastro buscaCadastro(Long id) {
 		return repository.findById(id).orElseThrow(() -> new ServiceException("Id não encontrado!"));
 	}
@@ -29,6 +33,18 @@ public class SolicitacaoCadastroService {
 		var solicitacaoPage = repository.findAll(pageable);
 		var solicitacaoDto = solicitacaoPage.map(x -> this.toDTO(x));		
 		return solicitacaoDto;
+	}
+	
+	public SolicitacaoCadastro buscaSolicitacaoNaoEfetivada(Long codigo) {
+		SolicitacaoCadastro sol = repository.findByCodigo(codigo);
+		try {
+			if(sol.getCodigo() == null) {
+				throw new ResourceNotFoundException("Cadastro não Encontrado.");
+			}
+		}catch (Exception e) {
+			logger.error("Cadastro Não Encontrado.");
+		}
+		return sol;
 	}
 	
 	public SolicitacaoCadastro insereCadastro(SolicitacaoCadastro cadastro) {

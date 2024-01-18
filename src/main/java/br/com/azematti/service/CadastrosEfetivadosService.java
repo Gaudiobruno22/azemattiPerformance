@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import br.com.azematti.exception.RequiredObjectException;
+import br.com.azematti.exception.ServiceException;
 import br.com.azematti.model.CadastrosEfetivados;
 import br.com.azematti.model.Servico;
 import br.com.azematti.model.SolicitacaoCadastro;
@@ -37,21 +38,24 @@ public class CadastrosEfetivadosService {
 		logger.info("Iniciando Efetivação do Cadastro Existente...");
 		Servico servico = new Servico();
 		CadastrosEfetivados cadEfetiva = new CadastrosEfetivados();
-		SolicitacaoCadastro sol = solCadastroService.buscaCadastro(solCadastroCodigo);	
-		if(sol.getCodigo() == null) throw new RequiredObjectException("Solicitação Cadastro não encontrada.");
-		try {
-			servico = servicoService.criaServico(sol);
-			if(servico.getCodigo() == null) throw new RequiredObjectException("Serviço Inválido ou Vazio.");
-			cadEfetiva = criaCadastro(servico, sol);
-			if (cadEfetiva != null) {
-				insereCadastro(cadEfetiva);
-				sol.setEfetivou("S");
-				solCadastroService.atualizaCadastro(sol);
+		SolicitacaoCadastro sol = solCadastroService.buscaSolicitacaoNaoEfetivada(solCadastroCodigo);
+		if("N".equals(sol.getEfetivou())) {
+			try {
+				servico = servicoService.criaServico(sol);
+				if(servico.getCodigo() == null) throw new RequiredObjectException("Serviço Inválido ou Vazio.");
+				cadEfetiva = criaCadastro(servico, sol);
+				if (cadEfetiva != null) {
+					insereCadastro(cadEfetiva);
+					sol.setEfetivou("S");
+					solCadastroService.atualizaCadastro(sol);
+				}
+			}catch(Exception e) {
+				logger.error("Erro ao efetivar cadastro. ERRO.: " + e.getMessage());
 			}
-		}catch(Exception e) {
-			logger.error("Erro ao efetivar cadastro. ERRO.: " + e.getMessage());
+		}else {
+			throw new ServiceException("Cadastro já foi Efetivado no Sistema.");
 		}
-		return null;
+		return cadEfetiva;
 	}
 	
 	private CadastrosEfetivados criaCadastro(Servico servico, SolicitacaoCadastro solCadastro) {
