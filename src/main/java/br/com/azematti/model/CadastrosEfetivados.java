@@ -1,8 +1,6 @@
 package br.com.azematti.model;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,10 +1,11 @@
 package br.com.azematti.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.azematti.exception.RequiredObjectException;
@@ -25,9 +26,9 @@ public class CadastrosEfetivadosService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CadastrosEfetivadosService.class);
 	
-	public List<CadastrosEfetivados> buscaTodos(){
-	    List<CadastrosEfetivados> list = cadastroRepository.findAll();	
-	    return list;
+	public Page<CadastrosEfetivados> buscaTodos(Pageable pageable){
+		var cadPaginado = cadastroRepository.findAll(pageable);
+	    return cadPaginado;
 	}
 	
 	public void insereCadastro(CadastrosEfetivados cadastro) {
