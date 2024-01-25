@@ -71,7 +71,6 @@ public class SolicitacaoCadastroService {
 		repository.delete(cad);
 	}
 	
-	//Função para Atualizar as Models com base na Informação Recebida
 	private void atualizarDados(SolicitacaoCadastro antigo, SolicitacaoCadastro novo) {
 		novo = repository.findByCodigo(antigo.getCodigo());
 		

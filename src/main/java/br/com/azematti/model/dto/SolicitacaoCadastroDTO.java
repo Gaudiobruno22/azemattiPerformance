@@ -18,16 +18,8 @@ public class SolicitacaoCadastroDTO {
 	private Long codigo;
 	
 	private String nome;	
-
-	private String cidade;
-	
-	private String estado;
 	
 	private String email;
-	
-	private String cpf;
-	
-	private String telefone;
 		
 	private String veiculo;
 		
